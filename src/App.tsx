@@ -57,6 +57,20 @@ const coolnessMessages = [
   }
 ]
 
+// Final completion messages for variety
+const completionMessages = [
+  "Look at you! Your coolness meter is off the charts! You're absolutely amazing, and I hope your day gets even better! 🎉",
+  "Wow! You've reached maximum awesome levels! You're incredible and deserve all the good things coming your way! ✨",
+  "Amazing work! You've unlocked legendary status! Remember, you're fantastic just as you are! 🌟",
+  "Incredible! You've achieved peak coolness! You're a superstar and your awesomeness is undeniable! 🚀",
+  "Outstanding! You've maxed out your coolness meter! You're brilliant, wonderful, and absolutely remarkable! 👑",
+  "Fantastic! You've reached ultimate coolness! You're amazing and capable of incredible things! 💫",
+  "Brilliant! You've hit maximum awesome! You're special, talented, and deserve to feel proud! 🎊",
+  "Spectacular! You've achieved legendary coolness! You're wonderful and your potential is limitless! 🌈",
+  "Marvelous! You've reached peak awesome levels! You're incredible and worthy of all good things! 🎯",
+  "Extraordinary! You've unlocked maximum coolness! You're amazing and your light shines so bright! ⭐"
+]
+
 const questions: Question[] = [
   {
     id: 1,
@@ -179,6 +193,7 @@ function App() {
   const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([])
   const [showParticles, setShowParticles] = useState(false)
   const [messageVariationIndex, setMessageVariationIndex] = useState(0)
+  const [completionMessageIndex, setCompletionMessageIndex] = useState(0)
 
   // Number of questions to ask in each session
   const QUESTIONS_TO_ASK = 5
@@ -302,6 +317,7 @@ function App() {
     const shuffled = [...questions].sort(() => 0.5 - Math.random())
     setSelectedQuestions(shuffled.slice(0, QUESTIONS_TO_ASK))
     setMessageVariationIndex(Math.floor(Math.random() * 8)) // Random index for message variation (0-7)
+    setCompletionMessageIndex(Math.floor(Math.random() * completionMessages.length)) // Random completion message
   }, [])
 
   // Trigger particles when maximum coolness is reached
@@ -348,7 +364,7 @@ function App() {
         setCharacterMessage("Ready for the next one? You're doing great! 🌟")
       } else {
         setShowCompletion(true)
-        setCharacterMessage("Look at you! Your coolness meter is off the charts! You're absolutely amazing, and I hope your day gets even better! 🎉")
+        setCharacterMessage(completionMessages[completionMessageIndex])
       }
     }, 2000)
   }
@@ -369,6 +385,7 @@ function App() {
     const shuffled = [...questions].sort(() => 0.5 - Math.random())
     setSelectedQuestions(shuffled.slice(0, QUESTIONS_TO_ASK))
     setMessageVariationIndex(Math.floor(Math.random() * 8)) // New random variation each reset (0-7)
+    setCompletionMessageIndex(Math.floor(Math.random() * completionMessages.length)) // New random completion message
   }
 
   return (
