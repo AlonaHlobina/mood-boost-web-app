@@ -116,15 +116,15 @@ function App() {
 
           {/* Character Section */}
           <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 mb-8">
-            {/* Cartoon Human Figure */}
-            <div id="cartoon-character" className="flex-shrink-0 relative">
-              {/* Coolness Bar Above Character */}
-              <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 w-8 h-20">
+            {/* Cartoon Human Figure with Coolness Bar */}
+            <div id="cartoon-character" className="flex-shrink-0 flex items-center gap-4">
+              {/* Coolness Bar Next to Character */}
+              <div className="flex flex-col items-center">
                 <div className="text-xs font-medium text-muted-foreground mb-1 text-center">
                   Cool
                 </div>
                 {/* Vertical bar container */}
-                <div className="relative w-4 h-16 bg-muted border border-border rounded-full mx-auto">
+                <div className="relative w-4 h-32 bg-muted border border-border rounded-full">
                   {/* Rising/falling bar */}
                   <div 
                     className="absolute bottom-0 w-full rounded-full transition-all duration-1000 ease-out"
