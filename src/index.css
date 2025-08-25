@@ -83,3 +83,16 @@
 .animate-bounce-slow {
   animation: bounce-slow 3s infinite;
 }
+
+@keyframes coolness-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(34, 197, 94, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.6);
+  }
+}
+
+.coolness-high {
+  animation: coolness-glow 2s infinite;
+}
