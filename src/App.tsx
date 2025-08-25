@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
+import React from "react"
 
 interface Question {
   id: number
@@ -128,14 +129,24 @@ function App() {
   const [characterMessage, setCharacterMessage] = useState(
     "Hi, beautiful person! I see you're having a bad day! I'll try to make it better for you. All you need to do is answer a few simple questions. ✨"
   )
+  const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([])
+
+  // Number of questions to ask in each session
+  const QUESTIONS_TO_ASK = 5
+
+  // Initialize random questions on first load
+  React.useEffect(() => {
+    const shuffled = [...questions].sort(() => 0.5 - Math.random())
+    setSelectedQuestions(shuffled.slice(0, QUESTIONS_TO_ASK))
+  }, [])
 
   // Calculate progress based on answered questions
-  const progressValue = (answeredQuestions.length / questions.length) * 100
+  const progressValue = (answeredQuestions.length / QUESTIONS_TO_ASK) * 100
   // Calculate coolness bar height based on yes answers (0-5 yes answers mapped to 0-100%)
-  const coolnessHeight = (yesCount / questions.length) * 100
+  const coolnessHeight = (yesCount / QUESTIONS_TO_ASK) * 100
 
   const handleAnswer = (isYes: boolean) => {
-    const currentQuestion = questions[currentQuestionIndex]
+    const currentQuestion = selectedQuestions[currentQuestionIndex]
     const response = isYes ? currentQuestion.positiveResponse : currentQuestion.negativeResponse
     
     // Add current question to answered list
@@ -151,7 +162,7 @@ function App() {
     
     // Move to next question or show completion
     setTimeout(() => {
-      if (currentQuestionIndex < questions.length - 1) {
+      if (currentQuestionIndex < QUESTIONS_TO_ASK - 1) {
         setCurrentQuestionIndex(prev => prev + 1)
         setCharacterMessage("Ready for the next one? You're doing great! 🌟")
       } else {
@@ -169,6 +180,9 @@ function App() {
     setCharacterMessage(
       "Hi, beautiful person! I see you're having a bad day! I'll try to make it better for you. All you need to do is answer a few simple questions. ✨"
     )
+    // Select new random questions
+    const shuffled = [...questions].sort(() => 0.5 - Math.random())
+    setSelectedQuestions(shuffled.slice(0, QUESTIONS_TO_ASK))
   }
 
   return (
@@ -187,8 +201,8 @@ function App() {
           <div className="text-center mb-8">
             <h2 className="text-lg font-semibold text-foreground mb-2">
               {yesCount === 0 ? "Let's boost your mood! 🌟" : 
-               yesCount === questions.length ? "You're at maximum coolness! 🎉" : 
-               `Getting cooler... ${yesCount} out of ${questions.length} yes! ⭐`}
+               yesCount === QUESTIONS_TO_ASK ? "You're at maximum coolness! 🎉" : 
+               `Getting cooler... ${yesCount} out of ${QUESTIONS_TO_ASK} yes! ⭐`}
             </h2>
           </div>
 
@@ -225,7 +239,7 @@ function App() {
                   </div>
                 </div>
                 <div className="text-xs text-center mt-1 font-medium">
-                  {yesCount}/{questions.length}
+                  {yesCount}/{QUESTIONS_TO_ASK}
                 </div>
               </div>
 
@@ -342,31 +356,33 @@ function App() {
           {/* Chat Window */}
           <div id="chat-window" className="bg-muted rounded-xl p-6 border-2 border-border min-h-48">
             {!showCompletion ? (
-              <div className="text-center">
-                <h3 className="text-lg font-semibold text-foreground mb-6">
-                  Question {currentQuestionIndex + 1} of {questions.length}
-                </h3>
-                <p className="text-foreground text-lg mb-8 leading-relaxed">
-                  {questions[currentQuestionIndex].text}
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button
-                    onClick={() => handleAnswer(true)}
-                    className="bg-secondary hover:bg-secondary/90 text-secondary-foreground px-8 py-3 text-lg font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-200"
-                    disabled={answeredQuestions.includes(questions[currentQuestionIndex].id)}
-                  >
-                    Yes! 👍
-                  </Button>
-                  <Button
-                    onClick={() => handleAnswer(false)}
-                    variant="outline"
-                    className="border-2 border-border hover:bg-accent hover:text-accent-foreground px-8 py-3 text-lg font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-200"
-                    disabled={answeredQuestions.includes(questions[currentQuestionIndex].id)}
-                  >
-                    No 👎
-                  </Button>
+              selectedQuestions.length > 0 && (
+                <div className="text-center">
+                  <h3 className="text-lg font-semibold text-foreground mb-6">
+                    Question {currentQuestionIndex + 1} of {QUESTIONS_TO_ASK}
+                  </h3>
+                  <p className="text-foreground text-lg mb-8 leading-relaxed">
+                    {selectedQuestions[currentQuestionIndex].text}
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Button
+                      onClick={() => handleAnswer(true)}
+                      className="bg-secondary hover:bg-secondary/90 text-secondary-foreground px-8 py-3 text-lg font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-200"
+                      disabled={answeredQuestions.includes(selectedQuestions[currentQuestionIndex].id)}
+                    >
+                      Yes! 👍
+                    </Button>
+                    <Button
+                      onClick={() => handleAnswer(false)}
+                      variant="outline"
+                      className="border-2 border-border hover:bg-accent hover:text-accent-foreground px-8 py-3 text-lg font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-200"
+                      disabled={answeredQuestions.includes(selectedQuestions[currentQuestionIndex].id)}
+                    >
+                      No 👎
+                    </Button>
+                  </div>
                 </div>
-              </div>
+              )
             ) : (
               <div className="text-center">
                 <h3 className="text-2xl font-bold text-foreground mb-4">
