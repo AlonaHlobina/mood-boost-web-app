@@ -12,30 +12,108 @@ interface Question {
 const questions: Question[] = [
   {
     id: 1,
+    text: "Did you breathe at all today?",
+    positiveResponse: "Incredible! You're literally keeping yourself alive - that's the coolest superpower ever! 💨",
+    negativeResponse: "Wait... how are you answering this? You're definitely breathing and that's amazing! 😄"
+  },
+  {
+    id: 2,
+    text: "Are you currently thinking about something?",
+    positiveResponse: "Your brain is working beautifully! Thinking minds are the coolest minds! 🧠",
+    negativeResponse: "Even having a blank mind moment makes you zen-level cool! ✨"
+  },
+  {
+    id: 3,
+    text: "Did you experience the passage of time today?",
+    positiveResponse: "You're traveling through time at exactly the right speed! Time traveler level: Expert! ⏰",
+    negativeResponse: "Even if time felt weird, you're still here in this moment and that's perfect! 🌟"
+  },
+  {
+    id: 4,
+    text: "Did you open your eyes today?",
+    positiveResponse: "Yes! You're seeing the world and that makes the world brighter! 👀",
+    negativeResponse: "Whether your eyes are open or closed, you're still perceiving and that's beautiful! ✨"
+  },
+  {
+    id: 5,
+    text: "Did you hear a sound today?",
+    positiveResponse: "Your ears are working like magic! Sound waves think you're pretty cool! 👂",
+    negativeResponse: "Silence can be golden, and you're appreciating it like a pro! 🤫"
+  },
+  {
+    id: 6,
+    text: "Are you reading this right now?",
+    positiveResponse: "Look at you being literate and engaged! Reading is one of humanity's coolest inventions! 📖",
+    negativeResponse: "Even if you're not reading, you're somehow getting this message and that's mysterious and cool! 🔮"
+  },
+  {
+    id: 7,
+    text: "Did you get out of bed today?",
+    positiveResponse: "Champion! You conquered gravity and started your day like a hero! 🛏️",
+    negativeResponse: "Beds are amazing inventions and you're appreciating comfort - that's wisdom! 😴"
+  },
+  {
+    id: 8,
+    text: "Have you seen the sky today?",
+    positiveResponse: "You looked up at the infinite universe! That's pretty cosmic and cool! 🌌",
+    negativeResponse: "The sky is still there waiting for you, and indoor ceilings can be interesting too! 🏠"
+  },
+  {
+    id: 9,
+    text: "Did you touch something today?",
+    positiveResponse: "Your sense of touch is connecting you to the physical world! Tactile excellence! ✋",
+    negativeResponse: "Even floating through life without touching anything would be impressively ethereal! 👻"
+  },
+  {
+    id: 10,
+    text: "Did you drink any water today?",
+    positiveResponse: "Hydration nation! You're taking care of your amazing body! 💧",
+    negativeResponse: "Your body is remarkably efficient - even a little dehydration can't stop your coolness! 🌟"
+  },
+  {
+    id: 11,
+    text: "Did you exercise today?",
+    positiveResponse: "Movement master! Your body loves you for keeping it active! 💪",
+    negativeResponse: "Rest is important too! Your muscles are recharging for future awesome activities! 😌"
+  },
+  {
+    id: 12,
+    text: "Did you see another person today?",
+    positiveResponse: "Human connection activated! You're part of the amazing human community! 👥",
+    negativeResponse: "Solo adventures are cool too! You're enjoying your own excellent company! 🦸"
+  },
+  {
+    id: 13,
+    text: "Did you have breakfast?",
+    positiveResponse: "Morning fuel achieved! You're starting your day like a breakfast champion! 🥞",
+    negativeResponse: "Maybe you're trying intermittent fasting or just marching to your own breakfast beat! 🥐"
+  },
+  {
+    id: 14,
     text: "Did you get enough sleep last night?",
     positiveResponse: "Great! Good sleep is so important for feeling awesome! ⭐",
     negativeResponse: "That's okay! Even tired heroes can be cool. Let's boost that energy! 💪"
   },
   {
-    id: 2,
+    id: 15,
     text: "Have you eaten something tasty today?",
     positiveResponse: "Wonderful! Fuel for your amazing day! 🍎",
     negativeResponse: "No worries! Your body is still doing incredible things! 🌟"
   },
   {
-    id: 3,
+    id: 16,
     text: "Did you talk to someone you care about today?",
     positiveResponse: "That's beautiful! Connection makes us all cooler! 💕",
     negativeResponse: "That's totally fine! You're still surrounded by people who care! 🤗"
   },
   {
-    id: 4,
+    id: 17,
     text: "Have you done something creative or fun today?",
     positiveResponse: "Amazing! Creativity is the ultimate coolness! 🎨",
     negativeResponse: "No problem! Just being you is creative and wonderful! ✨"
   },
   {
-    id: 5,
+    id: 18,
     text: "Did you step outside today?",
     positiveResponse: "Fantastic! Nature recognizes a cool person when it sees one! 🌳",
     negativeResponse: "That's perfectly okay! Indoor adventures count too! 🏠"
