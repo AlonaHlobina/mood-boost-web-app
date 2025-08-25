@@ -151,67 +151,99 @@ function App() {
                 </div>
               </div>
 
-              {/* Human Figure */}
+              {/* Cool Panda Figure */}
               <div className={`relative animate-bounce-slow ${coolnessHeight >= 80 ? 'coolness-high' : ''}`}>
-                {/* Head */}
-                <div className="w-16 h-16 bg-amber-200 rounded-full border-2 border-amber-300 mx-auto mb-1 relative shadow-md">
-                  {/* Eyes */}
-                  <div className={`absolute top-4 left-3 w-2 h-2 bg-gray-800 rounded-full transition-all duration-500 ${
-                    coolnessHeight >= 80 ? 'animate-pulse' : ''
-                  }`}></div>
-                  <div className={`absolute top-4 right-3 w-2 h-2 bg-gray-800 rounded-full transition-all duration-500 ${
-                    coolnessHeight >= 80 ? 'animate-pulse' : ''
-                  }`}></div>
-                  {/* Eye sparkles when at high coolness */}
-                  {coolnessHeight >= 80 && (
-                    <>
-                      <div className="absolute top-3 left-2 w-1 h-1 bg-white rounded-full animate-ping"></div>
-                      <div className="absolute top-3 right-2 w-1 h-1 bg-white rounded-full animate-ping"></div>
-                    </>
-                  )}
-                  {/* Mouth */}
-                  <div className={`absolute bottom-3 left-1/2 transform -translate-x-1/2 w-4 h-2 border-b-2 transition-all duration-500 ${
-                    coolnessHeight >= 80 ? 'border-green-600 rounded-b-full' : 
-                    coolnessHeight >= 40 ? 'border-yellow-600' : 'border-gray-600 rotate-180 rounded-t-full'
-                  }`}></div>
-                  {/* Hair */}
-                  <div className="absolute -top-1 left-2 right-2 h-6 bg-amber-700 rounded-t-full"></div>
-                </div>
-
-                {/* Body */}
-                <div className={`w-12 h-16 rounded-lg mx-auto border-2 shadow-md relative transition-all duration-500 ${
-                  coolnessHeight >= 80 ? 'bg-yellow-400 border-yellow-500' : 
-                  coolnessHeight >= 40 ? 'bg-blue-400 border-blue-500' : 'bg-gray-400 border-gray-500'
-                }`}>
-                  {/* Arms */}
-                  <div className="absolute -left-3 top-2 w-6 h-2 bg-amber-200 rounded-full border border-amber-300"></div>
-                  <div className="absolute -right-3 top-2 w-6 h-2 bg-amber-200 rounded-full border border-amber-300"></div>
-                  {/* Shirt details */}
-                  <div className={`absolute top-1 left-1 right-1 h-1 rounded transition-all duration-500 ${
-                    coolnessHeight >= 80 ? 'bg-yellow-500' : 
-                    coolnessHeight >= 40 ? 'bg-blue-500' : 'bg-gray-500'
-                  }`}></div>
+                {/* Panda Head */}
+                <div className="w-16 h-16 bg-gray-100 rounded-full border-2 border-gray-300 mx-auto mb-1 relative shadow-md">
+                  {/* Ears */}
+                  <div className="absolute -top-2 -left-2 w-6 h-6 bg-gray-900 rounded-full"></div>
+                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-gray-900 rounded-full"></div>
                   
-                  {/* Cool effects when high coolness */}
+                  {/* Sunglasses (when cool) or Regular Eyes */}
+                  {coolnessHeight >= 60 ? (
+                    <>
+                      {/* Cool Sunglasses */}
+                      <div className="absolute top-3 left-2 right-2 h-4 bg-gray-800 rounded-lg border border-gray-900">
+                        {/* Left lens with palm tree reflection */}
+                        <div className="absolute left-0 top-0 w-5 h-4 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-l-lg overflow-hidden">
+                          <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-2 bg-green-800"></div>
+                          <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-2 h-1 bg-green-600 rounded-full"></div>
+                          <div className="absolute top-0 right-0 w-1 h-1 bg-white rounded-full"></div>
+                        </div>
+                        {/* Right lens with palm tree reflection */}
+                        <div className="absolute right-0 top-0 w-5 h-4 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-r-lg overflow-hidden">
+                          <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-2 bg-green-800"></div>
+                          <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-2 h-1 bg-green-600 rounded-full"></div>
+                          <div className="absolute top-0 right-0 w-1 h-1 bg-white rounded-full"></div>
+                        </div>
+                        {/* Bridge */}
+                        <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-1 h-2 bg-gray-700"></div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {/* Regular Panda Eyes */}
+                      <div className="absolute top-3 left-2 w-4 h-5 bg-gray-900 rounded-full">
+                        <div className="absolute top-1 left-1 w-2 h-2 bg-white rounded-full">
+                          <div className="absolute top-0.5 left-0.5 w-1 h-1 bg-gray-900 rounded-full"></div>
+                        </div>
+                      </div>
+                      <div className="absolute top-3 right-2 w-4 h-5 bg-gray-900 rounded-full">
+                        <div className="absolute top-1 right-1 w-2 h-2 bg-white rounded-full">
+                          <div className="absolute top-0.5 right-0.5 w-1 h-1 bg-gray-900 rounded-full"></div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                  
+                  {/* Nose */}
+                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-800 rounded-full"></div>
+                  
+                  {/* Mouth */}
+                  <div className={`absolute bottom-2 left-1/2 transform -translate-x-1/2 transition-all duration-500 ${
+                    coolnessHeight >= 80 ? 'w-4 h-2 bg-red-600 rounded-full' : 
+                    coolnessHeight >= 40 ? 'w-3 h-1 border-b-2 border-gray-800' : 'w-2 h-1 border-b border-gray-600'
+                  }`}></div>
+                </div>
+
+                {/* Panda Body */}
+                <div className="w-12 h-16 bg-gray-100 rounded-lg mx-auto border-2 border-gray-300 shadow-md relative overflow-hidden">
+                  {/* Striped Shirt */}
+                  <div className={`absolute inset-0 transition-all duration-500 ${
+                    coolnessHeight >= 80 ? 'bg-gradient-to-b from-blue-600 to-blue-700' : 
+                    coolnessHeight >= 40 ? 'bg-blue-600' : 'bg-gray-600'
+                  }`}>
+                    {/* White stripes */}
+                    <div className="absolute top-2 left-0 right-0 h-1 bg-white"></div>
+                    <div className="absolute top-5 left-0 right-0 h-1 bg-white"></div>
+                    <div className="absolute top-8 left-0 right-0 h-1 bg-white"></div>
+                    <div className="absolute top-11 left-0 right-0 h-1 bg-white"></div>
+                  </div>
+                  
+                  {/* Arms */}
+                  <div className="absolute -left-3 top-2 w-6 h-3 bg-gray-900 rounded-full"></div>
+                  <div className="absolute -right-3 top-2 w-6 h-3 bg-gray-900 rounded-full"></div>
+                  
+                  {/* Cool sparkles when at high coolness */}
                   {coolnessHeight >= 80 && (
                     <>
-                      <div className="absolute top-3 left-2 w-1 h-1 bg-white rounded-full animate-ping"></div>
-                      <div className="absolute top-3 right-2 w-1 h-1 bg-white rounded-full animate-ping"></div>
-                      <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full animate-pulse"></div>
+                      <div className="absolute top-3 left-2 w-1 h-1 bg-yellow-300 rounded-full animate-ping"></div>
+                      <div className="absolute top-3 right-2 w-1 h-1 bg-yellow-300 rounded-full animate-ping"></div>
+                      <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-300 rounded-full animate-pulse"></div>
                     </>
                   )}
                 </div>
 
-                {/* Legs */}
+                {/* Panda Legs */}
                 <div className="flex justify-center gap-1 mt-1">
-                  <div className="w-3 h-12 bg-gray-700 rounded-lg border border-gray-800"></div>
-                  <div className="w-3 h-12 bg-gray-700 rounded-lg border border-gray-800"></div>
+                  <div className="w-3 h-12 bg-gray-900 rounded-lg"></div>
+                  <div className="w-3 h-12 bg-gray-900 rounded-lg"></div>
                 </div>
 
-                {/* Feet */}
+                {/* Panda Feet */}
                 <div className="flex justify-center gap-2 mt-1">
-                  <div className="w-4 h-2 bg-gray-900 rounded-full"></div>
-                  <div className="w-4 h-2 bg-gray-900 rounded-full"></div>
+                  <div className="w-4 h-3 bg-gray-900 rounded-full"></div>
+                  <div className="w-4 h-3 bg-gray-900 rounded-full"></div>
                 </div>
               </div>
             </div>
