@@ -12,23 +12,19 @@ Your Mood Boost App is now configured for GitHub Pages deployment! Here's how to
    ```
 
 2. **Enable GitHub Pages in your repository:**
-   - Go to your repository on GitHub
+   - Go to your repository on GitHub: `https://github.com/AlonaHlobina/mood-boost-web-app`
    - Click "Settings" tab
    - Scroll down to "Pages" section
    - Under "Source", select "GitHub Actions"
    - The workflow will automatically deploy your app
 
 3. **Your app will be available at:**
-   `https://yourusername.github.io/spark-template/`
+   `https://alonahlobina.github.io/mood-boost-web-app/`
 
 ## Important Notes
 
-### Repository Name
-The Vite config assumes your repository is named `spark-template`. If your repository has a different name, update the `base` path in `vite.config.ts`:
-
-```typescript
-base: process.env.NODE_ENV === 'production' ? '/your-repo-name/' : '/',
-```
+### Repository Configuration
+The Vite config is already set up for your repository `mood-boost-web-app`. The base path is configured correctly.
 
 ### Audio Features
 - Audio effects will work after the first user interaction (clicking a button)

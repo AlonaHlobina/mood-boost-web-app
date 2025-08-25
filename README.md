@@ -1,23 +1,54 @@
-# ✨ Welcome to Your Spark Template!
-You've just launched your brand-new Spark Template Codespace — everything’s fired up and ready for you to explore, build, and create with Spark!
+# 🎉 Mood Boost Web App
 
-This template is your blank canvas. It comes with a minimal setup to help you get started quickly with Spark development.
+A delightful web application designed to boost your mood through simple, positive interactions with an adorable panda character!
 
-🚀 What's Inside?
-- A clean, minimal Spark environment
-- Pre-configured for local development
-- Ready to scale with your ideas
-  
-🧠 What Can You Do?
+## 🌟 Features
 
-Right now, this is just a starting point — the perfect place to begin building and testing your Spark applications.
+- **Interactive Mood Booster**: Answer simple questions to increase your "coolness level"
+- **Adorable Panda Character**: Watch the panda get cooler as you progress
+- **Dynamic Responses**: Positive and encouraging feedback for every answer
+- **Celebration Effects**: Particle animations and sound effects at maximum coolness
+- **Responsive Design**: Works beautifully on all devices
 
-🧹 Just Exploring?
-No problem! If you were just checking things out and don’t need to keep this code:
+## 🚀 Live Demo
 
-- Simply delete your Spark.
-- Everything will be cleaned up — no traces left behind.
+Visit the app at: **https://alonahlobina.github.io/mood-boost-web-app/**
 
-📄 License For Spark Template Resources 
+## 🛠️ Development
 
-The Spark Template files and resources from GitHub are licensed under the terms of the MIT license, Copyright GitHub, Inc.
+This app is built with:
+- React + TypeScript
+- Vite for fast development and building
+- Tailwind CSS for styling
+- shadcn/ui for components
+- Web Audio API for sound effects
+- Framer Motion for animations
+
+### Run Locally
+
+```bash
+npm install
+npm run dev
+```
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+## 📦 Deployment
+
+The app automatically deploys to GitHub Pages when changes are pushed to the main branch. See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed instructions.
+
+## ✨ What Makes This Special
+
+This isn't just a mood booster - it's a carefully crafted experience that:
+- Uses positive psychology principles
+- Provides immediate gratification through interactive elements
+- Creates emotional connection through character design
+- Celebrates small wins to build momentum
+
+---
+
+Built with ❤️ using GitHub Spark
