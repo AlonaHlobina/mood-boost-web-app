@@ -10,6 +10,67 @@ interface Question {
   negativeResponse: string
 }
 
+// Coolness assessment messages for variety
+const coolnessMessages = [
+  {
+    zero: "Let's boost your mood! 🌟",
+    low: [
+      "Getting started... ", 
+      "Building momentum... ", 
+      "Warming up... ", 
+      "On the path... ",
+      "Taking the first steps... ",
+      "Beginning your journey... ",
+      "Starting to shine... ",
+      "Coolness loading... "
+    ],
+    medium: [
+      "Halfway to awesome! ", 
+      "You're getting there! ", 
+      "Progress is progress! ", 
+      "Looking good! ",
+      "Steadily climbing! ",
+      "Making great strides! ",
+      "Coolness rising! ",
+      "On the right track! "
+    ],
+    high: [
+      "Almost at peak cool! ", 
+      "So close to maximum! ", 
+      "Nearly there! ", 
+      "Excellence incoming! ",
+      "Approaching legendary! ",
+      "Almost at the summit! ",
+      "Nearing perfection! ",
+      "Peak coolness ahead! "
+    ],
+    max: [
+      "You're at maximum coolness! 🎉", 
+      "Peak coolness achieved! 🚀", 
+      "Maximum awesome reached! ⭐", 
+      "Coolness level: LEGENDARY! 👑",
+      "Ultimate coolness unlocked! 🔥",
+      "Coolness meter exploded! 💥",
+      "Off-the-charts awesome! 📊",
+      "Coolness overload activated! ⚡"
+    ]
+  }
+]
+
+// Final completion messages for variety
+const completionMessages = [
+  "Your coolness level is absolutely legendary! You radiate such positive energy that everyone around you can feel it. Today is going to be an incredible day full of amazing moments! 🎉",
+  "Maximum coolness achieved! You're the kind of person who makes the world brighter just by being in it. Your day is going to be filled with joy, laughter, and wonderful surprises! ✨",
+  "Off-the-charts cool! Your amazing personality and positive spirit are going to make today absolutely fantastic. Great things are coming your way because you deserve them! 🌟",
+  "Peak coolness unlocked! You have this incredible ability to turn any day into something special. Today is going to be one of those days you'll remember with a smile! 🚀",
+  "Ultimate coolness status! Your awesomeness is contagious and today everyone you meet will be lucky to encounter someone as cool as you. Prepare for an amazing day! 👑",
+  "Legendary coolness reached! You're the kind of person who brings sunshine wherever you go. Today is going to shine just as bright as your incredible spirit! 💫",
+  "Maximum cool factor activated! Your unique blend of awesomeness means today is going to unfold in the most wonderful ways. Every moment will be touched by your coolness! 🎊",
+  "Coolness meter exploded! You're so incredibly cool that today doesn't stand a chance of being anything less than spectacular. Amazing adventures await you! 🌈",
+  "Supreme coolness achieved! Your fantastic energy is going to make today absolutely magical. Every person you meet and every experience you have will be enhanced by your coolness! 🎯",
+  "Infinite coolness unlocked! You're so wonderfully cool that today is going to be one of those perfect days where everything just flows beautifully. Get ready for awesomeness! ⭐"
+]
+
 const questions: Question[] = [
   {
     id: 1,
@@ -131,9 +192,30 @@ function App() {
   )
   const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([])
   const [showParticles, setShowParticles] = useState(false)
+  const [messageVariationIndex, setMessageVariationIndex] = useState(0)
+  const [completionMessageIndex, setCompletionMessageIndex] = useState(0)
 
   // Number of questions to ask in each session
   const QUESTIONS_TO_ASK = 5
+
+  // Function to get coolness assessment message with variety
+  const getCoolnessMessage = (yesCount: number) => {
+    if (yesCount === 0) {
+      return coolnessMessages[0].zero
+    } else if (yesCount === QUESTIONS_TO_ASK) {
+      const maxMessages = coolnessMessages[0].max
+      return maxMessages[messageVariationIndex % maxMessages.length]
+    } else if (yesCount >= Math.ceil(QUESTIONS_TO_ASK * 0.8)) {
+      const highMessages = coolnessMessages[0].high
+      return `${highMessages[messageVariationIndex % highMessages.length]}${yesCount} out of ${QUESTIONS_TO_ASK} yes! ⭐`
+    } else if (yesCount >= Math.ceil(QUESTIONS_TO_ASK * 0.4)) {
+      const mediumMessages = coolnessMessages[0].medium
+      return `${mediumMessages[messageVariationIndex % mediumMessages.length]}${yesCount} out of ${QUESTIONS_TO_ASK} yes! ⭐`
+    } else {
+      const lowMessages = coolnessMessages[0].low
+      return `${lowMessages[messageVariationIndex % lowMessages.length]}${yesCount} out of ${QUESTIONS_TO_ASK} yes! ⭐`
+    }
+  }
 
   // Sound effects using Web Audio API
   const playCelebrationSound = () => {
@@ -261,10 +343,12 @@ function App() {
     </div>
   )
 
-  // Initialize random questions on first load
+  // Initialize random questions and message variation on first load
   React.useEffect(() => {
     const shuffled = [...questions].sort(() => 0.5 - Math.random())
     setSelectedQuestions(shuffled.slice(0, QUESTIONS_TO_ASK))
+    setMessageVariationIndex(Math.floor(Math.random() * 8)) // Random index for message variation (0-7)
+    setCompletionMessageIndex(Math.floor(Math.random() * completionMessages.length)) // Random completion message
   }, [])
 
   // Trigger particles when maximum coolness is reached
@@ -311,9 +395,8 @@ function App() {
         setCharacterMessage("Ready for the next one? You're doing great! 🌟")
       } else {
         setShowCompletion(true)
-        setCharacterMessage("Look at you! Your coolness meter is off the charts! You're absolutely amazing, and I hope your day gets even better! 🎉")
       }
-    }, 2000)
+    }, 1500)
   }
 
   const resetQuiz = () => {
@@ -328,9 +411,11 @@ function App() {
     setCharacterMessage(
       "Hi, beautiful person! I see you're having a bad day! I'll try to make it better for you. All you need to do is answer a few simple questions. ✨"
     )
-    // Select new random questions
+    // Select new random questions and message variation
     const shuffled = [...questions].sort(() => 0.5 - Math.random())
     setSelectedQuestions(shuffled.slice(0, QUESTIONS_TO_ASK))
+    setMessageVariationIndex(Math.floor(Math.random() * 8)) // New random variation each reset (0-7)
+    setCompletionMessageIndex(Math.floor(Math.random() * completionMessages.length)) // New random completion message
   }
 
   return (
@@ -374,9 +459,7 @@ function App() {
           {/* Overall Progress Display */}
           <div className="text-center mb-8">
             <h2 className="text-lg font-semibold text-foreground mb-2">
-              {yesCount === 0 ? "Let's boost your mood! 🌟" : 
-               yesCount === QUESTIONS_TO_ASK ? "You're at maximum coolness! 🎉" : 
-               `Getting cooler... ${yesCount} out of ${QUESTIONS_TO_ASK} yes! ⭐`}
+              {getCoolnessMessage(yesCount)}
             </h2>
           </div>
 
@@ -571,8 +654,7 @@ function App() {
                   🎉 You're Amazing! 🎉
                 </h3>
                 <p className="text-foreground text-lg mb-6 leading-relaxed">
-                  You've completed all the questions and boosted your coolness to the maximum! 
-                  Remember, you're incredible just as you are. ✨
+                  {completionMessages[completionMessageIndex]}
                 </p>
                 <Button
                   onClick={resetQuiz}
