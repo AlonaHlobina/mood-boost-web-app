@@ -364,9 +364,8 @@ function App() {
         setCharacterMessage("Ready for the next one? You're doing great! 🌟")
       } else {
         setShowCompletion(true)
-        setCharacterMessage(completionMessages[completionMessageIndex])
       }
-    }, 2000)
+      }
   }
 
   const resetQuiz = () => {
@@ -386,9 +385,9 @@ function App() {
     setSelectedQuestions(shuffled.slice(0, QUESTIONS_TO_ASK))
     setMessageVariationIndex(Math.floor(Math.random() * 8)) // New random variation each reset (0-7)
     setCompletionMessageIndex(Math.floor(Math.random() * completionMessages.length)) // New random completion message
-  }
+    setCompletionMessageIndex(Math.floor(Math.random() * completionMessages.length)) // New random completion message
 
-  return (
+
     <div className={`min-h-screen bg-background p-4 md:p-8 relative overflow-hidden transition-all duration-1000 ${yesCount === QUESTIONS_TO_ASK ? 'celebration-mode' : ''}`}>
       {/* Particle Effects Overlay */}
       {showParticles && (
