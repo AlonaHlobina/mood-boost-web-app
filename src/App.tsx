@@ -135,6 +135,83 @@ function App() {
   // Number of questions to ask in each session
   const QUESTIONS_TO_ASK = 5
 
+  // Sound effects using Web Audio API
+  const playCelebrationSound = () => {
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+    
+    // Create a sequence of celebratory notes
+    const notes = [523.25, 659.25, 783.99, 1046.5] // C5, E5, G5, C6
+    
+    notes.forEach((frequency, index) => {
+      setTimeout(() => {
+        // Create oscillator for the note
+        const oscillator = audioContext.createOscillator()
+        const gainNode = audioContext.createGain()
+        
+        oscillator.connect(gainNode)
+        gainNode.connect(audioContext.destination)
+        
+        // Set up the note properties
+        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime)
+        oscillator.type = 'triangle' // Warm, celebratory sound
+        
+        // Envelope for natural sound
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime)
+        gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01)
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3)
+        
+        // Play the note
+        oscillator.start(audioContext.currentTime)
+        oscillator.stop(audioContext.currentTime + 0.3)
+      }, index * 100)
+    })
+
+    // Add a sparkle sound effect
+    setTimeout(() => {
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+          const oscillator = audioContext.createOscillator()
+          const gainNode = audioContext.createGain()
+          
+          oscillator.connect(gainNode)
+          gainNode.connect(audioContext.destination)
+          
+          // High frequency sparkle
+          oscillator.frequency.setValueAtTime(1800 + Math.random() * 800, audioContext.currentTime)
+          oscillator.type = 'sine'
+          
+          gainNode.gain.setValueAtTime(0, audioContext.currentTime)
+          gainNode.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + 0.001)
+          gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1)
+          
+          oscillator.start(audioContext.currentTime)
+          oscillator.stop(audioContext.currentTime + 0.1)
+        }, i * 50)
+      }
+    }, 500)
+  }
+
+  const playButtonClickSound = () => {
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+    const oscillator = audioContext.createOscillator()
+    const gainNode = audioContext.createGain()
+    
+    oscillator.connect(gainNode)
+    gainNode.connect(audioContext.destination)
+    
+    // Gentle click sound
+    oscillator.frequency.setValueAtTime(800, audioContext.currentTime)
+    oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1)
+    oscillator.type = 'triangle'
+    
+    gainNode.gain.setValueAtTime(0, audioContext.currentTime)
+    gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01)
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1)
+    
+    oscillator.start(audioContext.currentTime)
+    oscillator.stop(audioContext.currentTime + 0.1)
+  }
+
   // Particle component
   const Particle = ({ delay, duration, size, emoji }: { delay: number; duration: number; size: number; emoji: string }) => (
     <div 
@@ -163,6 +240,8 @@ function App() {
   useEffect(() => {
     if (yesCount === QUESTIONS_TO_ASK) {
       setShowParticles(true)
+      // Play celebration sound
+      playCelebrationSound()
       // Hide particles after animation completes
       const timer = setTimeout(() => {
         setShowParticles(false)
@@ -177,6 +256,9 @@ function App() {
   const coolnessHeight = (yesCount / QUESTIONS_TO_ASK) * 100
 
   const handleAnswer = (isYes: boolean) => {
+    // Play button click sound
+    playButtonClickSound()
+    
     const currentQuestion = selectedQuestions[currentQuestionIndex]
     const response = isYes ? currentQuestion.positiveResponse : currentQuestion.negativeResponse
     
@@ -204,6 +286,9 @@ function App() {
   }
 
   const resetQuiz = () => {
+    // Play button click sound
+    playButtonClickSound()
+    
     setCurrentQuestionIndex(0)
     setAnsweredQuestions([])
     setYesCount(0)
