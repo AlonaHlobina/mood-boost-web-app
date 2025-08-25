@@ -59,16 +59,16 @@ const coolnessMessages = [
 
 // Final completion messages for variety
 const completionMessages = [
-  "Look at you! Your coolness meter is off the charts! You're absolutely amazing, and I hope your day gets even better! 🎉",
-  "Wow! You've reached maximum awesome levels! You're incredible and deserve all the good things coming your way! ✨",
-  "Amazing work! You've unlocked legendary status! Remember, you're fantastic just as you are! 🌟",
-  "Incredible! You've achieved peak coolness! You're a superstar and your awesomeness is undeniable! 🚀",
-  "Outstanding! You've maxed out your coolness meter! You're brilliant, wonderful, and absolutely remarkable! 👑",
-  "Fantastic! You've reached ultimate coolness! You're amazing and capable of incredible things! 💫",
-  "Brilliant! You've hit maximum awesome! You're special, talented, and deserve to feel proud! 🎊",
-  "Spectacular! You've achieved legendary coolness! You're wonderful and your potential is limitless! 🌈",
-  "Marvelous! You've reached peak awesome levels! You're incredible and worthy of all good things! 🎯",
-  "Extraordinary! You've unlocked maximum coolness! You're amazing and your light shines so bright! ⭐"
+  "Your coolness level is absolutely legendary! You radiate such positive energy that everyone around you can feel it. Today is going to be an incredible day full of amazing moments! 🎉",
+  "Maximum coolness achieved! You're the kind of person who makes the world brighter just by being in it. Your day is going to be filled with joy, laughter, and wonderful surprises! ✨",
+  "Off-the-charts cool! Your amazing personality and positive spirit are going to make today absolutely fantastic. Great things are coming your way because you deserve them! 🌟",
+  "Peak coolness unlocked! You have this incredible ability to turn any day into something special. Today is going to be one of those days you'll remember with a smile! 🚀",
+  "Ultimate coolness status! Your awesomeness is contagious and today everyone you meet will be lucky to encounter someone as cool as you. Prepare for an amazing day! 👑",
+  "Legendary coolness reached! You're the kind of person who brings sunshine wherever you go. Today is going to shine just as bright as your incredible spirit! 💫",
+  "Maximum cool factor activated! Your unique blend of awesomeness means today is going to unfold in the most wonderful ways. Every moment will be touched by your coolness! 🎊",
+  "Coolness meter exploded! You're so incredibly cool that today doesn't stand a chance of being anything less than spectacular. Amazing adventures await you! 🌈",
+  "Supreme coolness achieved! Your fantastic energy is going to make today absolutely magical. Every person you meet and every experience you have will be enhanced by your coolness! 🎯",
+  "Infinite coolness unlocked! You're so wonderfully cool that today is going to be one of those perfect days where everything just flows beautifully. Get ready for awesomeness! ⭐"
 ]
 
 const questions: Question[] = [
@@ -623,8 +623,7 @@ function App() {
                   🎉 You're Amazing! 🎉
                 </h3>
                 <p className="text-foreground text-lg mb-6 leading-relaxed">
-                  You've completed all the questions and boosted your coolness to the maximum! 
-                  Remember, you're incredible just as you are. ✨
+                  {completionMessages[completionMessageIndex]}
                 </p>
                 <Button
                   onClick={resetQuiz}
