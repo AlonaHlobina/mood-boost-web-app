@@ -296,7 +296,6 @@ function App() {
                       ></div>
                     ))}
                   </div>
-                  {/* Maximum coolness sparkles */}
                   {coolnessHeight >= 100 && (
                     <>
                       <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-ping"></div>
@@ -305,6 +304,7 @@ function App() {
                       <div className="absolute top-3/4 -left-1 w-1 h-1 bg-yellow-300 rounded-full animate-pulse"></div>
                     </>
                   )}
+                </div>
                 </div>
                 <div className="text-xs text-center mt-1 font-medium">
                   {yesCount}/{QUESTIONS_TO_ASK}
@@ -315,7 +315,6 @@ function App() {
               <div className={`relative animate-bounce-slow ${coolnessHeight >= 80 ? 'coolness-high' : ''}`}>
                 {/* Panda Head */}
                 <div className="w-16 h-16 bg-gray-100 rounded-full border-2 border-gray-300 mx-auto mb-1 relative shadow-md">
-                  {/* Ears */}
                   <div className="absolute -top-2 -left-2 w-6 h-6 bg-gray-900 rounded-full"></div>
                   <div className="absolute -top-2 -right-2 w-6 h-6 bg-gray-900 rounded-full"></div>
                   
