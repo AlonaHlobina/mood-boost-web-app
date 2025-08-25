@@ -10,6 +10,53 @@ interface Question {
   negativeResponse: string
 }
 
+// Coolness assessment messages for variety
+const coolnessMessages = [
+  {
+    zero: "Let's boost your mood! 🌟",
+    low: [
+      "Getting started... ", 
+      "Building momentum... ", 
+      "Warming up... ", 
+      "On the path... ",
+      "Taking the first steps... ",
+      "Beginning your journey... ",
+      "Starting to shine... ",
+      "Coolness loading... "
+    ],
+    medium: [
+      "Halfway to awesome! ", 
+      "You're getting there! ", 
+      "Progress is progress! ", 
+      "Looking good! ",
+      "Steadily climbing! ",
+      "Making great strides! ",
+      "Coolness rising! ",
+      "On the right track! "
+    ],
+    high: [
+      "Almost at peak cool! ", 
+      "So close to maximum! ", 
+      "Nearly there! ", 
+      "Excellence incoming! ",
+      "Approaching legendary! ",
+      "Almost at the summit! ",
+      "Nearing perfection! ",
+      "Peak coolness ahead! "
+    ],
+    max: [
+      "You're at maximum coolness! 🎉", 
+      "Peak coolness achieved! 🚀", 
+      "Maximum awesome reached! ⭐", 
+      "Coolness level: LEGENDARY! 👑",
+      "Ultimate coolness unlocked! 🔥",
+      "Coolness meter exploded! 💥",
+      "Off-the-charts awesome! 📊",
+      "Coolness overload activated! ⚡"
+    ]
+  }
+]
+
 const questions: Question[] = [
   {
     id: 1,
@@ -131,9 +178,29 @@ function App() {
   )
   const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([])
   const [showParticles, setShowParticles] = useState(false)
+  const [messageVariationIndex, setMessageVariationIndex] = useState(0)
 
   // Number of questions to ask in each session
   const QUESTIONS_TO_ASK = 5
+
+  // Function to get coolness assessment message with variety
+  const getCoolnessMessage = (yesCount: number) => {
+    if (yesCount === 0) {
+      return coolnessMessages[0].zero
+    } else if (yesCount === QUESTIONS_TO_ASK) {
+      const maxMessages = coolnessMessages[0].max
+      return maxMessages[messageVariationIndex % maxMessages.length]
+    } else if (yesCount >= Math.ceil(QUESTIONS_TO_ASK * 0.8)) {
+      const highMessages = coolnessMessages[0].high
+      return `${highMessages[messageVariationIndex % highMessages.length]}${yesCount} out of ${QUESTIONS_TO_ASK} yes! ⭐`
+    } else if (yesCount >= Math.ceil(QUESTIONS_TO_ASK * 0.4)) {
+      const mediumMessages = coolnessMessages[0].medium
+      return `${mediumMessages[messageVariationIndex % mediumMessages.length]}${yesCount} out of ${QUESTIONS_TO_ASK} yes! ⭐`
+    } else {
+      const lowMessages = coolnessMessages[0].low
+      return `${lowMessages[messageVariationIndex % lowMessages.length]}${yesCount} out of ${QUESTIONS_TO_ASK} yes! ⭐`
+    }
+  }
 
   // Sound effects using Web Audio API
   const playCelebrationSound = () => {
@@ -230,10 +297,11 @@ function App() {
     </div>
   )
 
-  // Initialize random questions on first load
+  // Initialize random questions and message variation on first load
   React.useEffect(() => {
     const shuffled = [...questions].sort(() => 0.5 - Math.random())
     setSelectedQuestions(shuffled.slice(0, QUESTIONS_TO_ASK))
+    setMessageVariationIndex(Math.floor(Math.random() * 8)) // Random index for message variation (0-7)
   }, [])
 
   // Trigger particles when maximum coolness is reached
@@ -297,9 +365,10 @@ function App() {
     setCharacterMessage(
       "Hi, beautiful person! I see you're having a bad day! I'll try to make it better for you. All you need to do is answer a few simple questions. ✨"
     )
-    // Select new random questions
+    // Select new random questions and message variation
     const shuffled = [...questions].sort(() => 0.5 - Math.random())
     setSelectedQuestions(shuffled.slice(0, QUESTIONS_TO_ASK))
+    setMessageVariationIndex(Math.floor(Math.random() * 8)) // New random variation each reset (0-7)
   }
 
   return (
@@ -343,9 +412,7 @@ function App() {
           {/* Overall Progress Display */}
           <div className="text-center mb-8">
             <h2 className="text-lg font-semibold text-foreground mb-2">
-              {yesCount === 0 ? "Let's boost your mood! 🌟" : 
-               yesCount === QUESTIONS_TO_ASK ? "You're at maximum coolness! 🎉" : 
-               `Getting cooler... ${yesCount} out of ${QUESTIONS_TO_ASK} yes! ⭐`}
+              {getCoolnessMessage(yesCount)}
             </h2>
           </div>
 
