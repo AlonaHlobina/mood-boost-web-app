@@ -137,79 +137,110 @@ function App() {
 
   // Sound effects using Web Audio API
   const playCelebrationSound = () => {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
-    
-    // Create a sequence of celebratory notes
-    const notes = [523.25, 659.25, 783.99, 1046.5] // C5, E5, G5, C6
-    
-    notes.forEach((frequency, index) => {
-      setTimeout(() => {
-        // Create oscillator for the note
-        const oscillator = audioContext.createOscillator()
-        const gainNode = audioContext.createGain()
-        
-        oscillator.connect(gainNode)
-        gainNode.connect(audioContext.destination)
-        
-        // Set up the note properties
-        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime)
-        oscillator.type = 'triangle' // Warm, celebratory sound
-        
-        // Envelope for natural sound
-        gainNode.gain.setValueAtTime(0, audioContext.currentTime)
-        gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01)
-        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3)
-        
-        // Play the note
-        oscillator.start(audioContext.currentTime)
-        oscillator.stop(audioContext.currentTime + 0.3)
-      }, index * 100)
-    })
-
-    // Add a sparkle sound effect
-    setTimeout(() => {
-      for (let i = 0; i < 5; i++) {
-        setTimeout(() => {
-          const oscillator = audioContext.createOscillator()
-          const gainNode = audioContext.createGain()
-          
-          oscillator.connect(gainNode)
-          gainNode.connect(audioContext.destination)
-          
-          // High frequency sparkle
-          oscillator.frequency.setValueAtTime(1800 + Math.random() * 800, audioContext.currentTime)
-          oscillator.type = 'sine'
-          
-          gainNode.gain.setValueAtTime(0, audioContext.currentTime)
-          gainNode.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + 0.001)
-          gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1)
-          
-          oscillator.start(audioContext.currentTime)
-          oscillator.stop(audioContext.currentTime + 0.1)
-        }, i * 50)
+    try {
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+      
+      // Resume audio context if it's suspended (required for some browsers)
+      if (audioContext.state === 'suspended') {
+        audioContext.resume()
       }
-    }, 500)
+      
+      // Create a sequence of celebratory notes
+      const notes = [523.25, 659.25, 783.99, 1046.5] // C5, E5, G5, C6
+      
+      notes.forEach((frequency, index) => {
+        setTimeout(() => {
+          try {
+            // Create oscillator for the note
+            const oscillator = audioContext.createOscillator()
+            const gainNode = audioContext.createGain()
+            
+            oscillator.connect(gainNode)
+            gainNode.connect(audioContext.destination)
+            
+            // Set up the note properties
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime)
+            oscillator.type = 'triangle' // Warm, celebratory sound
+            
+            // Envelope for natural sound
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime)
+            gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01)
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3)
+            
+            // Play the note
+            oscillator.start(audioContext.currentTime)
+            oscillator.stop(audioContext.currentTime + 0.3)
+          } catch (e) {
+            // Silently fail if audio can't play
+            console.log('Audio note failed:', e)
+          }
+        }, index * 100)
+      })
+
+      // Add a sparkle sound effect
+      setTimeout(() => {
+        for (let i = 0; i < 5; i++) {
+          setTimeout(() => {
+            try {
+              const oscillator = audioContext.createOscillator()
+              const gainNode = audioContext.createGain()
+              
+              oscillator.connect(gainNode)
+              gainNode.connect(audioContext.destination)
+              
+              // High frequency sparkle
+              oscillator.frequency.setValueAtTime(1800 + Math.random() * 800, audioContext.currentTime)
+              oscillator.type = 'sine'
+              
+              gainNode.gain.setValueAtTime(0, audioContext.currentTime)
+              gainNode.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + 0.001)
+              gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1)
+              
+              oscillator.start(audioContext.currentTime)
+              oscillator.stop(audioContext.currentTime + 0.1)
+            } catch (e) {
+              // Silently fail if audio can't play
+              console.log('Audio sparkle failed:', e)
+            }
+          }, i * 50)
+        }
+      }, 500)
+    } catch (e) {
+      // Silently fail if Web Audio API is not available
+      console.log('Audio context creation failed:', e)
+    }
   }
 
   const playButtonClickSound = () => {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
-    const oscillator = audioContext.createOscillator()
-    const gainNode = audioContext.createGain()
-    
-    oscillator.connect(gainNode)
-    gainNode.connect(audioContext.destination)
-    
-    // Gentle click sound
-    oscillator.frequency.setValueAtTime(800, audioContext.currentTime)
-    oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1)
-    oscillator.type = 'triangle'
-    
-    gainNode.gain.setValueAtTime(0, audioContext.currentTime)
-    gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01)
-    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1)
-    
-    oscillator.start(audioContext.currentTime)
-    oscillator.stop(audioContext.currentTime + 0.1)
+    try {
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+      
+      // Resume audio context if it's suspended
+      if (audioContext.state === 'suspended') {
+        audioContext.resume()
+      }
+      
+      const oscillator = audioContext.createOscillator()
+      const gainNode = audioContext.createGain()
+      
+      oscillator.connect(gainNode)
+      gainNode.connect(audioContext.destination)
+      
+      // Gentle click sound
+      oscillator.frequency.setValueAtTime(800, audioContext.currentTime)
+      oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1)
+      oscillator.type = 'triangle'
+      
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime)
+      gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01)
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1)
+      
+      oscillator.start(audioContext.currentTime)
+      oscillator.stop(audioContext.currentTime + 0.1)
+    } catch (e) {
+      // Silently fail if Web Audio API is not available
+      console.log('Button click sound failed:', e)
+    }
   }
 
   // Particle component
