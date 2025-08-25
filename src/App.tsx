@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import React from "react"
 
 interface Question {
@@ -130,15 +130,46 @@ function App() {
     "Hi, beautiful person! I see you're having a bad day! I'll try to make it better for you. All you need to do is answer a few simple questions. ✨"
   )
   const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([])
+  const [showParticles, setShowParticles] = useState(false)
 
   // Number of questions to ask in each session
   const QUESTIONS_TO_ASK = 5
+
+  // Particle component
+  const Particle = ({ delay, duration, size, emoji }: { delay: number; duration: number; size: number; emoji: string }) => (
+    <div 
+      className="absolute pointer-events-none animate-bounce opacity-0"
+      style={{
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        fontSize: `${size}px`,
+        animationDelay: `${delay}s`,
+        animationDuration: `${duration}s`,
+        animationFillMode: 'forwards',
+        animationName: 'particle-float'
+      }}
+    >
+      {emoji}
+    </div>
+  )
 
   // Initialize random questions on first load
   React.useEffect(() => {
     const shuffled = [...questions].sort(() => 0.5 - Math.random())
     setSelectedQuestions(shuffled.slice(0, QUESTIONS_TO_ASK))
   }, [])
+
+  // Trigger particles when maximum coolness is reached
+  useEffect(() => {
+    if (yesCount === QUESTIONS_TO_ASK) {
+      setShowParticles(true)
+      // Hide particles after animation completes
+      const timer = setTimeout(() => {
+        setShowParticles(false)
+      }, 4000)
+      return () => clearTimeout(timer)
+    }
+  }, [yesCount, QUESTIONS_TO_ASK])
 
   // Calculate progress based on answered questions
   const progressValue = (answeredQuestions.length / QUESTIONS_TO_ASK) * 100
@@ -177,6 +208,7 @@ function App() {
     setAnsweredQuestions([])
     setYesCount(0)
     setShowCompletion(false)
+    setShowParticles(false)
     setCharacterMessage(
       "Hi, beautiful person! I see you're having a bad day! I'll try to make it better for you. All you need to do is answer a few simple questions. ✨"
     )
@@ -186,8 +218,34 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-4xl mx-auto">
+    <div className={`min-h-screen bg-background p-4 md:p-8 relative overflow-hidden transition-all duration-1000 ${yesCount === QUESTIONS_TO_ASK ? 'celebration-mode' : ''}`}>
+      {/* Particle Effects Overlay */}
+      {showParticles && (
+        <div className="fixed inset-0 pointer-events-none z-50">
+          {/* Create multiple particles with different emojis and animations */}
+          {Array.from({ length: 20 }).map((_, i) => (
+            <Particle 
+              key={i} 
+              delay={i * 0.1} 
+              duration={3 + Math.random() * 2}
+              size={16 + Math.random() * 16}
+              emoji={['🎉', '✨', '⭐', '🌟', '💫', '🎊', '🔥', '💎', '👑', '🏆'][i % 10]}
+            />
+          ))}
+          {/* Additional burst of confetti */}
+          {Array.from({ length: 15 }).map((_, i) => (
+            <Particle 
+              key={`confetti-${i}`} 
+              delay={0.5 + i * 0.05} 
+              duration={2 + Math.random() * 1.5}
+              size={12 + Math.random() * 8}
+              emoji={['🎈', '🎁', '🍀', '🌈', '☀️'][i % 5]}
+            />
+          ))}
+        </div>
+      )}
+      
+      <div className="max-w-4xl mx-auto relative z-10">
         {/* Header */}
         <header className="text-center mb-8">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-2">
@@ -219,12 +277,13 @@ function App() {
                 <div className="relative w-4 h-32 bg-muted border border-border rounded-full">
                   {/* Rising/falling bar */}
                   <div 
-                    className="absolute bottom-0 w-full rounded-full transition-all duration-1000 ease-out"
+                    className={`absolute bottom-0 w-full rounded-full transition-all duration-1000 ease-out ${coolnessHeight >= 100 ? 'animate-pulse' : ''}`}
                     style={{ 
                       height: `${coolnessHeight}%`,
                       background: coolnessHeight >= 80 ? 'linear-gradient(to top, #22c55e, #4ade80)' :
                                  coolnessHeight >= 40 ? 'linear-gradient(to top, #3b82f6, #60a5fa)' :
-                                 'linear-gradient(to top, #6b7280, #9ca3af)'
+                                 'linear-gradient(to top, #6b7280, #9ca3af)',
+                      boxShadow: coolnessHeight >= 100 ? '0 0 10px rgba(34, 197, 94, 0.8)' : 'none'
                     }}
                   ></div>
                   {/* Level indicator marks */}
@@ -237,6 +296,15 @@ function App() {
                       ></div>
                     ))}
                   </div>
+                  {/* Maximum coolness sparkles */}
+                  {coolnessHeight >= 100 && (
+                    <>
+                      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-ping"></div>
+                      <div className="absolute top-1/4 -left-1 w-1 h-1 bg-yellow-300 rounded-full animate-pulse"></div>
+                      <div className="absolute top-1/2 -right-1 w-1 h-1 bg-yellow-300 rounded-full animate-pulse"></div>
+                      <div className="absolute top-3/4 -left-1 w-1 h-1 bg-yellow-300 rounded-full animate-pulse"></div>
+                    </>
+                  )}
                 </div>
                 <div className="text-xs text-center mt-1 font-medium">
                   {yesCount}/{QUESTIONS_TO_ASK}

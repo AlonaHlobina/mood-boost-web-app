@@ -96,3 +96,52 @@
 .coolness-high {
   animation: coolness-glow 2s infinite;
 }
+
+/* Particle animation effects */
+@keyframes particle-float {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(-20px) scale(1) rotate(45deg);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-100px) scale(1.2) rotate(180deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-200px) scale(0.8) rotate(360deg);
+  }
+}
+
+@keyframes particle-burst {
+  0% {
+    opacity: 1;
+    transform: scale(0) rotate(0deg);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.3) rotate(72deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5) rotate(360deg);
+  }
+}
+
+/* Celebratory background pulse when max coolness reached */
+@keyframes celebration-bg {
+  0%, 100% {
+    background: var(--background);
+  }
+  50% {
+    background: oklch(0.92 0.03 200);
+  }
+}
+
+.celebration-mode {
+  animation: celebration-bg 2s ease-in-out;
+}
