@@ -1,5 +1,4 @@
 import { Card } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 
@@ -46,6 +45,7 @@ const questions: Question[] = [
 function App() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [answeredQuestions, setAnsweredQuestions] = useState<number[]>([])
+  const [yesCount, setYesCount] = useState(0)
   const [showCompletion, setShowCompletion] = useState(false)
   const [characterMessage, setCharacterMessage] = useState(
     "Hi, beautiful person! I see you're having a bad day! I'll try to make it better for you. All you need to do is answer a few simple questions. ✨"
@@ -53,6 +53,8 @@ function App() {
 
   // Calculate progress based on answered questions
   const progressValue = (answeredQuestions.length / questions.length) * 100
+  // Calculate coolness bar height based on yes answers (0-5 yes answers mapped to 0-100%)
+  const coolnessHeight = (yesCount / questions.length) * 100
 
   const handleAnswer = (isYes: boolean) => {
     const currentQuestion = questions[currentQuestionIndex]
@@ -60,6 +62,11 @@ function App() {
     
     // Add current question to answered list
     setAnsweredQuestions(prev => [...prev, currentQuestion.id])
+    
+    // Update yes count if user answered yes
+    if (isYes) {
+      setYesCount(prev => prev + 1)
+    }
     
     // Update character message with response
     setCharacterMessage(response)
@@ -79,6 +86,7 @@ function App() {
   const resetQuiz = () => {
     setCurrentQuestionIndex(0)
     setAnsweredQuestions([])
+    setYesCount(0)
     setShowCompletion(false)
     setCharacterMessage(
       "Hi, beautiful person! I see you're having a bad day! I'll try to make it better for you. All you need to do is answer a few simple questions. ✨"
@@ -100,9 +108,9 @@ function App() {
           {/* Overall Progress Display */}
           <div className="text-center mb-8">
             <h2 className="text-lg font-semibold text-foreground mb-2">
-              {progressValue === 0 ? "Let's boost your mood! 🌟" : 
-               progressValue === 100 ? "You're at maximum coolness! 🎉" : 
-               `Getting cooler... ${Math.round(progressValue)}% there! ⭐`}
+              {yesCount === 0 ? "Let's boost your mood! 🌟" : 
+               yesCount === questions.length ? "You're at maximum coolness! 🎉" : 
+               `Getting cooler... ${yesCount} out of ${questions.length} yes! ⭐`}
             </h2>
           </div>
 
@@ -111,32 +119,51 @@ function App() {
             {/* Cartoon Human Figure */}
             <div id="cartoon-character" className="flex-shrink-0 relative">
               {/* Coolness Bar Above Character */}
-              <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 w-24">
+              <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 w-8 h-20">
                 <div className="text-xs font-medium text-muted-foreground mb-1 text-center">
-                  Coolness
+                  Cool
                 </div>
-                <Progress 
-                  value={progressValue} 
-                  className="h-3 bg-muted border border-border rounded-full transition-all duration-1000 ease-out"
-                />
+                {/* Vertical bar container */}
+                <div className="relative w-4 h-16 bg-muted border border-border rounded-full mx-auto">
+                  {/* Rising/falling bar */}
+                  <div 
+                    className="absolute bottom-0 w-full rounded-full transition-all duration-1000 ease-out"
+                    style={{ 
+                      height: `${coolnessHeight}%`,
+                      background: coolnessHeight >= 80 ? 'linear-gradient(to top, #22c55e, #4ade80)' :
+                                 coolnessHeight >= 40 ? 'linear-gradient(to top, #3b82f6, #60a5fa)' :
+                                 'linear-gradient(to top, #6b7280, #9ca3af)'
+                    }}
+                  ></div>
+                  {/* Level indicator marks */}
+                  <div className="absolute left-0 top-0 w-full h-full">
+                    {[20, 40, 60, 80, 100].map((level) => (
+                      <div 
+                        key={level}
+                        className="absolute left-0 w-full border-t border-border/50"
+                        style={{ bottom: `${level}%` }}
+                      ></div>
+                    ))}
+                  </div>
+                </div>
                 <div className="text-xs text-center mt-1 font-medium">
-                  {Math.round(progressValue)}%
+                  {yesCount}/{questions.length}
                 </div>
               </div>
 
               {/* Human Figure */}
-              <div className={`relative animate-bounce-slow ${progressValue >= 80 ? 'coolness-high' : ''}`}>
+              <div className={`relative animate-bounce-slow ${coolnessHeight >= 80 ? 'coolness-high' : ''}`}>
                 {/* Head */}
                 <div className="w-16 h-16 bg-amber-200 rounded-full border-2 border-amber-300 mx-auto mb-1 relative shadow-md">
                   {/* Eyes */}
                   <div className={`absolute top-4 left-3 w-2 h-2 bg-gray-800 rounded-full transition-all duration-500 ${
-                    progressValue >= 80 ? 'animate-pulse' : ''
+                    coolnessHeight >= 80 ? 'animate-pulse' : ''
                   }`}></div>
                   <div className={`absolute top-4 right-3 w-2 h-2 bg-gray-800 rounded-full transition-all duration-500 ${
-                    progressValue >= 80 ? 'animate-pulse' : ''
+                    coolnessHeight >= 80 ? 'animate-pulse' : ''
                   }`}></div>
                   {/* Eye sparkles when at high coolness */}
-                  {progressValue >= 80 && (
+                  {coolnessHeight >= 80 && (
                     <>
                       <div className="absolute top-3 left-2 w-1 h-1 bg-white rounded-full animate-ping"></div>
                       <div className="absolute top-3 right-2 w-1 h-1 bg-white rounded-full animate-ping"></div>
@@ -144,8 +171,8 @@ function App() {
                   )}
                   {/* Mouth */}
                   <div className={`absolute bottom-3 left-1/2 transform -translate-x-1/2 w-4 h-2 border-b-2 transition-all duration-500 ${
-                    progressValue >= 80 ? 'border-green-600 rounded-b-full' : 
-                    progressValue >= 40 ? 'border-yellow-600' : 'border-gray-600 rotate-180 rounded-t-full'
+                    coolnessHeight >= 80 ? 'border-green-600 rounded-b-full' : 
+                    coolnessHeight >= 40 ? 'border-yellow-600' : 'border-gray-600 rotate-180 rounded-t-full'
                   }`}></div>
                   {/* Hair */}
                   <div className="absolute -top-1 left-2 right-2 h-6 bg-amber-700 rounded-t-full"></div>
@@ -153,20 +180,20 @@ function App() {
 
                 {/* Body */}
                 <div className={`w-12 h-16 rounded-lg mx-auto border-2 shadow-md relative transition-all duration-500 ${
-                  progressValue >= 80 ? 'bg-yellow-400 border-yellow-500' : 
-                  progressValue >= 40 ? 'bg-blue-400 border-blue-500' : 'bg-gray-400 border-gray-500'
+                  coolnessHeight >= 80 ? 'bg-yellow-400 border-yellow-500' : 
+                  coolnessHeight >= 40 ? 'bg-blue-400 border-blue-500' : 'bg-gray-400 border-gray-500'
                 }`}>
                   {/* Arms */}
                   <div className="absolute -left-3 top-2 w-6 h-2 bg-amber-200 rounded-full border border-amber-300"></div>
                   <div className="absolute -right-3 top-2 w-6 h-2 bg-amber-200 rounded-full border border-amber-300"></div>
                   {/* Shirt details */}
                   <div className={`absolute top-1 left-1 right-1 h-1 rounded transition-all duration-500 ${
-                    progressValue >= 80 ? 'bg-yellow-500' : 
-                    progressValue >= 40 ? 'bg-blue-500' : 'bg-gray-500'
+                    coolnessHeight >= 80 ? 'bg-yellow-500' : 
+                    coolnessHeight >= 40 ? 'bg-blue-500' : 'bg-gray-500'
                   }`}></div>
                   
                   {/* Cool effects when high coolness */}
-                  {progressValue >= 80 && (
+                  {coolnessHeight >= 80 && (
                     <>
                       <div className="absolute top-3 left-2 w-1 h-1 bg-white rounded-full animate-ping"></div>
                       <div className="absolute top-3 right-2 w-1 h-1 bg-white rounded-full animate-ping"></div>
