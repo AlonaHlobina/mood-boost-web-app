@@ -305,7 +305,6 @@ function App() {
                     </>
                   )}
                 </div>
-                </div>
                 <div className="text-xs text-center mt-1 font-medium">
                   {yesCount}/{QUESTIONS_TO_ASK}
                 </div>
