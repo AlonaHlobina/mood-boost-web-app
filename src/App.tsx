@@ -217,7 +217,7 @@ function App() {
     }
   }
 
-  // Sound effects using Web Audio API
+  // Enhanced sound effects using Web Audio API
   const playCelebrationSound = () => {
     try {
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
@@ -227,41 +227,45 @@ function App() {
         audioContext.resume()
       }
       
-      // Create a sequence of celebratory notes
-      const notes = [523.25, 659.25, 783.99, 1046.5] // C5, E5, G5, C6
+      // Victory fanfare - triumphant chord progression
+      const chords = [
+        [523.25, 659.25, 783.99], // C Major (C5, E5, G5)
+        [587.33, 739.99, 880.00], // D Major (D5, F#5, A5)  
+        [659.25, 830.61, 987.77], // E Major (E5, G#5, B5)
+        [698.46, 880.00, 1046.50] // F Major (F5, A5, C6)
+      ]
       
-      notes.forEach((frequency, index) => {
+      // Play triumphant chord progression
+      chords.forEach((chord, chordIndex) => {
         setTimeout(() => {
-          try {
-            // Create oscillator for the note
-            const oscillator = audioContext.createOscillator()
-            const gainNode = audioContext.createGain()
-            
-            oscillator.connect(gainNode)
-            gainNode.connect(audioContext.destination)
-            
-            // Set up the note properties
-            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime)
-            oscillator.type = 'triangle' // Warm, celebratory sound
-            
-            // Envelope for natural sound
-            gainNode.gain.setValueAtTime(0, audioContext.currentTime)
-            gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01)
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3)
-            
-            // Play the note
-            oscillator.start(audioContext.currentTime)
-            oscillator.stop(audioContext.currentTime + 0.3)
-          } catch (e) {
-            // Silently fail if audio can't play
-            console.log('Audio note failed:', e)
-          }
-        }, index * 100)
+          chord.forEach((frequency) => {
+            try {
+              const oscillator = audioContext.createOscillator()
+              const gainNode = audioContext.createGain()
+              
+              oscillator.connect(gainNode)
+              gainNode.connect(audioContext.destination)
+              
+              oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime)
+              oscillator.type = 'triangle'
+              
+              // Powerful chord envelope
+              gainNode.gain.setValueAtTime(0, audioContext.currentTime)
+              gainNode.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.02)
+              gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.6)
+              
+              oscillator.start(audioContext.currentTime)
+              oscillator.stop(audioContext.currentTime + 0.6)
+            } catch (e) {
+              console.log('Audio chord failed:', e)
+            }
+          })
+        }, chordIndex * 150)
       })
 
-      // Add a sparkle sound effect
+      // Magical sparkle cascade
       setTimeout(() => {
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 12; i++) {
           setTimeout(() => {
             try {
               const oscillator = audioContext.createOscillator()
@@ -270,27 +274,183 @@ function App() {
               oscillator.connect(gainNode)
               gainNode.connect(audioContext.destination)
               
-              // High frequency sparkle
-              oscillator.frequency.setValueAtTime(1800 + Math.random() * 800, audioContext.currentTime)
+              // Descending magical sparkles with randomness
+              const baseFreq = 2000 - (i * 120) + (Math.random() * 200 - 100)
+              oscillator.frequency.setValueAtTime(baseFreq, audioContext.currentTime)
+              oscillator.frequency.exponentialRampToValueAtTime(baseFreq * 0.7, audioContext.currentTime + 0.15)
               oscillator.type = 'sine'
               
               gainNode.gain.setValueAtTime(0, audioContext.currentTime)
-              gainNode.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + 0.001)
-              gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1)
+              gainNode.gain.linearRampToValueAtTime(0.12, audioContext.currentTime + 0.01)
+              gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.15)
               
               oscillator.start(audioContext.currentTime)
-              oscillator.stop(audioContext.currentTime + 0.1)
+              oscillator.stop(audioContext.currentTime + 0.15)
             } catch (e) {
-              // Silently fail if audio can't play
               console.log('Audio sparkle failed:', e)
             }
-          }, i * 50)
+          }, i * 35)
         }
-      }, 500)
+      }, 400)
+
+      // Epic finale burst
+      setTimeout(() => {
+        try {
+          // Low dramatic boom
+          const boom = audioContext.createOscillator()
+          const boomGain = audioContext.createGain()
+          boom.connect(boomGain)
+          boomGain.connect(audioContext.destination)
+          
+          boom.frequency.setValueAtTime(80, audioContext.currentTime)
+          boom.frequency.exponentialRampToValueAtTime(40, audioContext.currentTime + 0.3)
+          boom.type = 'triangle'
+          
+          boomGain.gain.setValueAtTime(0, audioContext.currentTime)
+          boomGain.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + 0.05)
+          boomGain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3)
+          
+          boom.start(audioContext.currentTime)
+          boom.stop(audioContext.currentTime + 0.3)
+
+          // High celestial chimes
+          const chimeFreqs = [1047, 1319, 1568, 2093, 2637] // C6, E6, G6, C7, E7
+          chimeFreqs.forEach((freq, i) => {
+            setTimeout(() => {
+              const chime = audioContext.createOscillator()
+              const chimeGain = audioContext.createGain()
+              chime.connect(chimeGain)
+              chimeGain.connect(audioContext.destination)
+              
+              chime.frequency.setValueAtTime(freq, audioContext.currentTime)
+              chime.type = 'sine'
+              
+              chimeGain.gain.setValueAtTime(0, audioContext.currentTime)
+              chimeGain.gain.linearRampToValueAtTime(0.08, audioContext.currentTime + 0.01)
+              chimeGain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.8)
+              
+              chime.start(audioContext.currentTime)
+              chime.stop(audioContext.currentTime + 0.8)
+            }, i * 80)
+          })
+        } catch (e) {
+          console.log('Audio finale failed:', e)
+        }
+      }, 1000)
+      
     } catch (e) {
       // Silently fail if Web Audio API is not available
       console.log('Audio context creation failed:', e)
     }
+  }
+
+  // Particle-specific sound effects
+  const playParticleSound = (particleType: string, delay: number = 0) => {
+    setTimeout(() => {
+      try {
+        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+        
+        if (audioContext.state === 'suspended') {
+          audioContext.resume()
+        }
+        
+        const oscillator = audioContext.createOscillator()
+        const gainNode = audioContext.createGain()
+        
+        oscillator.connect(gainNode)
+        gainNode.connect(audioContext.destination)
+        
+        // Different sounds for different particle types
+        let frequency = 800
+        let duration = 0.1
+        let volume = 0.03
+        
+        switch (particleType) {
+          case '🎉': // Party popper
+            frequency = 600 + Math.random() * 400
+            oscillator.type = 'square'
+            duration = 0.15
+            volume = 0.04
+            break
+          case '✨': // Sparkle
+            frequency = 1200 + Math.random() * 800
+            oscillator.type = 'sine'
+            duration = 0.2
+            volume = 0.03
+            break
+          case '⭐': // Star
+            frequency = 900 + Math.random() * 600
+            oscillator.type = 'triangle'
+            duration = 0.25
+            volume = 0.035
+            break
+          case '🌟': // Glowing star
+            frequency = 1000 + Math.random() * 1000
+            oscillator.type = 'sine'
+            duration = 0.3
+            volume = 0.04
+            break
+          case '💫': // Dizzy
+            frequency = 800
+            oscillator.type = 'sawtooth'
+            duration = 0.2
+            volume = 0.03
+            // Add frequency modulation for dizzy effect
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime)
+            oscillator.frequency.exponentialRampToValueAtTime(frequency * 1.5, audioContext.currentTime + duration / 2)
+            oscillator.frequency.exponentialRampToValueAtTime(frequency, audioContext.currentTime + duration)
+            break
+          case '🎊': // Confetti
+            frequency = 700 + Math.random() * 300
+            oscillator.type = 'square'
+            duration = 0.12
+            volume = 0.025
+            break
+          case '🔥': // Fire
+            frequency = 400 + Math.random() * 400
+            oscillator.type = 'sawtooth'
+            duration = 0.15
+            volume = 0.03
+            break
+          case '💎': // Diamond
+            frequency = 1500 + Math.random() * 500
+            oscillator.type = 'triangle'
+            duration = 0.4
+            volume = 0.04
+            break
+          case '👑': // Crown
+            frequency = 1100
+            oscillator.type = 'triangle'
+            duration = 0.5
+            volume = 0.05
+            break
+          case '🏆': // Trophy  
+            frequency = 880 // A5
+            oscillator.type = 'triangle'
+            duration = 0.6
+            volume = 0.06
+            break
+          default:
+            frequency = 800 + Math.random() * 400
+            oscillator.type = 'sine'
+        }
+        
+        if (particleType !== '💫') { // Skip for dizzy since we set it above
+          oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime)
+        }
+        
+        // Envelope
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime)
+        gainNode.gain.linearRampToValueAtTime(volume, audioContext.currentTime + 0.01)
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration)
+        
+        oscillator.start(audioContext.currentTime)
+        oscillator.stop(audioContext.currentTime + duration)
+        
+      } catch (e) {
+        console.log('Particle sound failed:', e)
+      }
+    }, delay)
   }
 
   const playButtonClickSound = () => {
@@ -325,23 +485,30 @@ function App() {
     }
   }
 
-  // Particle component
-  const Particle = ({ delay, duration, size, emoji }: { delay: number; duration: number; size: number; emoji: string }) => (
-    <div 
-      className="absolute pointer-events-none animate-bounce opacity-0"
-      style={{
-        left: `${Math.random() * 100}%`,
-        top: `${Math.random() * 100}%`,
-        fontSize: `${size}px`,
-        animationDelay: `${delay}s`,
-        animationDuration: `${duration}s`,
-        animationFillMode: 'forwards',
-        animationName: 'particle-float'
-      }}
-    >
-      {emoji}
-    </div>
-  )
+  // Enhanced Particle component with sound effects
+  const Particle = ({ delay, duration, size, emoji }: { delay: number; duration: number; size: number; emoji: string }) => {
+    // Trigger particle sound effect when particle appears
+    React.useEffect(() => {
+      playParticleSound(emoji, delay * 1000)
+    }, [emoji, delay])
+
+    return (
+      <div 
+        className="absolute pointer-events-none animate-bounce opacity-0"
+        style={{
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+          fontSize: `${size}px`,
+          animationDelay: `${delay}s`,
+          animationDuration: `${duration}s`,
+          animationFillMode: 'forwards',
+          animationName: 'particle-float'
+        }}
+      >
+        {emoji}
+      </div>
+    )
+  }
 
   // Initialize random questions and message variation on first load
   React.useEffect(() => {
@@ -351,12 +518,23 @@ function App() {
     setCompletionMessageIndex(Math.floor(Math.random() * completionMessages.length)) // Random completion message
   }, [])
 
-  // Trigger particles when maximum coolness is reached
+  // Trigger particles and enhanced sound effects when maximum coolness is reached
   useEffect(() => {
     if (yesCount === QUESTIONS_TO_ASK) {
       setShowParticles(true)
-      // Play celebration sound
+      // Play celebration sound with enhanced effects
       playCelebrationSound()
+      
+      // Additional ambient celebration sounds
+      setTimeout(() => {
+        // Play some extra magical sounds
+        for (let i = 0; i < 3; i++) {
+          setTimeout(() => {
+            playParticleSound('✨', 0)
+          }, i * 200)
+        }
+      }, 1500)
+      
       // Hide particles after animation completes
       const timer = setTimeout(() => {
         setShowParticles(false)
