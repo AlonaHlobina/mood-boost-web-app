@@ -756,18 +756,16 @@ function App() {
                   </div>
                   
                   {/* Arms */}
-                </div> className="absolute -left-3 top-2 w-6 h-3 bg-gray-900 rounded-full"></div>
-
-                {/* Panda Legs */}
-                <div className="flex justify-center gap-1 mt-1">
-                  <div className="w-3 h-12 bg-gray-900 rounded-lg"></div>
-                  <div className="w-3 h-12 bg-gray-900 rounded-lg"></div>
+                  <div className="absolute -left-3 top-2 w-6 h-3 bg-gray-900 rounded-full"></div>
+                  <div className="absolute -right-3 top-2 w-6 h-3 bg-gray-900 rounded-full"></div>
                 </div>
 
-                      <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-300 rounded-full animate-pulse"></div>
-                    </>
-                  )}
-                </div>
+                {/* Sparkle effects when at max coolness */}
+                {coolnessHeight >= 100 && (
+                  <>
+                    <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-300 rounded-full animate-pulse"></div>
+                  </>
+                )}
 
                 {/* Panda Legs */}
                 <div className="flex justify-center gap-1 mt-1">
