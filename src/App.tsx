@@ -762,9 +762,7 @@ function App() {
 
                 {/* Sparkle effects when at max coolness */}
                 {coolnessHeight >= 100 && (
-                  <>
-                    <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-300 rounded-full animate-pulse"></div>
-                  </>
+                  <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-300 rounded-full animate-pulse"></div>
                 )}
 
                 {/* Panda Legs */}
